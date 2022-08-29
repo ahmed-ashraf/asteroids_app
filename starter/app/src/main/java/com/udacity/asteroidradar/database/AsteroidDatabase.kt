@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.udacity.asteroidradar.database.entities.AsteroidDTO
+import com.udacity.asteroidradar.database.entities.DailyPictureDTO
 
-@Database(entities = [AsteroidDTO::class], version = 1, exportSchema = false)
+@Database(entities = [AsteroidDTO::class, DailyPictureDTO::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AsteroidDatabase : RoomDatabase() {
     abstract val asteroidDao: AsteroidDao
 
@@ -20,7 +23,7 @@ abstract class AsteroidDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AsteroidDatabase::class.java,
-                        "sleep_history_database"
+                        "asteroids_database"
                     )
                         // Wipes and rebuilds instead of migrating if no Migration object.
                         // Migration is not part of this lesson. You can learn more about

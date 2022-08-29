@@ -1,35 +1,37 @@
 package com.udacity.asteroidradar.main
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.app.Application
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
-import com.udacity.asteroidradar.network.AsteroidsApi
+import com.udacity.asteroidradar.database.AsteroidDatabase
+import com.udacity.asteroidradar.repository.Repository
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
-class MainViewModel : ViewModel() {
-    private val _asteroids = MutableLiveData<List<Asteroid>>()
+class MainViewModel(app: Application) : ViewModel() {
 
-    val asteroids: LiveData<List<Asteroid>>
-        get() = _asteroids
+    private val database = AsteroidDatabase.getInstance(app)
+    private val repository = Repository(database)
 
+
+    val asteroids = repository.asteroids
+    val dailyPicture = repository.dailyPicture
 
     init {
-        getAsteroids()
+        viewModelScope.launch {
+            repository.refreshAsteroids()
+            repository.refreshDailyPicture()
+        }
     }
 
-    private fun getAsteroids() {
-        viewModelScope.launch {
-            try {
-                val response = AsteroidsApi.retrofitService.getAsteroids(null, null)
-                _asteroids.value = parseAsteroidsJsonResult(JSONObject(response as Map<Any,Any>))
-            } catch (e: Exception) {
 
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(app) as T
             }
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }

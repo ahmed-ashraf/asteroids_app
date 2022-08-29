@@ -4,6 +4,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.main.AsteroidListAdapter
 
 @BindingAdapter("statusIcon")
@@ -50,5 +51,18 @@ fun bindRecyclerView(
     if (recyclerView.adapter != null) {
         val adapter = recyclerView.adapter as AsteroidListAdapter
         adapter.setList(asteroids)
+    }
+}
+
+@BindingAdapter("urlImage")
+fun bindUrlImage(view: ImageView, imageUrl: String?) {
+    if (imageUrl != null) {
+        Picasso.with(view.context)
+            .load(imageUrl)
+            .fit()
+            .centerCrop()
+            .into(view)
+    } else {
+        view.setImageBitmap(null)
     }
 }
