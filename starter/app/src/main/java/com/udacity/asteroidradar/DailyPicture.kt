@@ -9,5 +9,6 @@ data class DailyPicture(
     @Json(name = "media_type")
     val mediaType: String,
     val title: String,
-    val url: String
+    val url: String,
+    val explanation: String
 )

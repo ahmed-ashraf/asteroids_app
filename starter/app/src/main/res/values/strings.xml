@@ -20,4 +20,6 @@
     <string name="this_is_nasa_s_picture_of_day_showing_nothing_yet">This is NASA\'s picture of day, showing nothing yet</string>
     <string name="nasa_picture_of_day_content_description_format">NASA\'s picture of day: %s</string>
     <string name="hazardous">Hazardous</string>
+    <string name="help_button_content_description">Astronomical unit help info</string>
+    <string name="shows_whether_this_asteroid_is_potentially_hazardous">Shows whether this asteroid is potentially hazardous.</string>
 </resources>
