@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/shows_whether_this_asteroid_is_potentially_hazardous"
+            android:contentDescription="@{asteroid.potentiallyHazardous ? @string/this_asteroid_is_potentially_hazardous: @string/this_asteroid_is_not_potentially_hazardous}"
             app:asteroidStatusImage="@{asteroid.potentiallyHazardous}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,9 +92,9 @@
 
                     <ImageView
                         android:id="@+id/help_button"
-                        android:contentDescription="@string/help_button_content_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/help_button_content_description"
                         android:padding="16dp"
                         app:srcCompat="@drawable/ic_help_circle" />
 

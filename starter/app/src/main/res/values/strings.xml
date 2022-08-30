@@ -21,5 +21,6 @@
     <string name="nasa_picture_of_day_content_description_format">NASA\'s picture of day: %s</string>
     <string name="hazardous">Hazardous</string>
     <string name="help_button_content_description">Astronomical unit help info</string>
-    <string name="shows_whether_this_asteroid_is_potentially_hazardous">Shows whether this asteroid is potentially hazardous.</string>
+    <string name="this_asteroid_is_potentially_hazardous">This asteroid is potentially hazardous</string>
+    <string name="this_asteroid_is_not_potentially_hazardous">This asteroid is not potentially hazardous</string>
 </resources>
