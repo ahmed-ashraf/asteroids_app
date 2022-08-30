@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
@@ -48,14 +47,14 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.show_all_menu -> viewModel.viewWeekAsteroids()
-            R.id.show_rent_menu -> viewModel.viewTodayAsteroids()
-            R.id.show_buy_menu -> viewModel.viewSavedAsteroids()
-        }
-        viewModel.asteroids.observe(this) {
-            asteroidListAdapter.setList(it)
-        }
+        viewModel.onFilterSelect(
+            when (item.itemId) {
+                R.id.show_all_menu -> AsteroidFilter.WEEK
+                R.id.show_rent_menu -> AsteroidFilter.TODAY
+
+                else -> AsteroidFilter.ALL
+            }
+        )
         return true
     }
 }
