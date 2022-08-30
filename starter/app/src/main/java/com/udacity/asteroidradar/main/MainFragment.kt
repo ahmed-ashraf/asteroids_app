@@ -2,19 +2,16 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.detail.DetailFragmentArgs
 
 class MainFragment : Fragment() {
+
+    private lateinit var asteroidListAdapter: AsteroidListAdapter
 
     private val viewModel: MainViewModel by lazy {
         val activity = requireNotNull(this.activity) {
@@ -32,14 +29,13 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        val asteroidRecycler = binding.asteroidRecycler
-        val asteroidsAdapter = AsteroidListAdapter(
+        binding.asteroidRecycler.adapter = AsteroidListAdapter(
             listOf(), AsteroidListAdapter.AsteroidListener {
                 findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
             }
-        )
-
-        asteroidRecycler.adapter = asteroidsAdapter
+        ).apply {
+            asteroidListAdapter = this
+        }
 
         setHasOptionsMenu(true)
 
@@ -52,6 +48,14 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.show_all_menu -> viewModel.viewWeekAsteroids()
+            R.id.show_rent_menu -> viewModel.viewTodayAsteroids()
+            R.id.show_buy_menu -> viewModel.viewSavedAsteroids()
+        }
+        viewModel.asteroids.observe(this) {
+            asteroidListAdapter.setList(it)
+        }
         return true
     }
 }
